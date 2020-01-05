@@ -55,22 +55,47 @@ class Trip {
     main.append(container);
     container.append($('<div>').text('ROADSTER').addClass('final__Logo'));
     container.append($('<div>').text('Your Trip').addClass('trip'));
-    for(let i = 0; i < placesArray.length; i++){
+
+    let placeListContainer = $('<div>').addClass('final__ListContainer');
+    container.append(placeListContainer);
+
+    for (let i = 0; i < placesArray.length; i++) {
       let placeContainer = $('<div>').addClass('place__Container');
-      let name = placesArray[i].waypointName;
-      let heading = $('<h1>').html(name);
-      let ul = $('<ul>')
-      for(let place of placesArray[i].waypointSelectedPlaces){
-        let li = $('<li>').html(place);
-        ul.append(li);
+      let stopName = placesArray[i].waypointName;
+      let heading = $('<h1>').text(stopName);
+      let ul = $('<ul>');
+
+      if (i !== 0 && !placesArray[i].waypointSelectedPlaces.length) {
+        ul.append($('<li>').text('No stops selected'));
+      } else {
+        if (i === 0) {
+          ul.append($('<li>').text('Road trip start!'));
+        }
+
+        for (let j = 0; j < placesArray[i].waypointSelectedPlaces.length; j++) {
+          let li = $('<li>');
+          let anchor = $('<a>').attr('href', placesArray[i].waypointSelectedURLs[j]).attr('target', '_blank');
+          anchor.text(placesArray[i].waypointSelectedPlaces[j]);
+          let addressText = $('<p>').text(placesArray[i].waypointSelectedAddresses[j]);
+          li.append(anchor, addressText);
+          ul.append(li);
+        }
+
+        if (i === placesArray.length - 1) {
+          ul.append($('<li>').text('Road trip finish!'));
+        }
       }
+
       placeContainer.append(heading, ul);
-      container.append(placeContainer);
+      placeListContainer.append(placeContainer);
     }
+
+    let printButton = $('<button>').addClass('btn btn--green').text('Print').click(() => {window.print()});
+    container.append(printButton);
   }
 
   /** @method renderPlaces
-     @param none
+    @param none
     Calls fetchNearbyPlaces & renderPlacesPage methods on places object
   */
   renderEntirePlace() {

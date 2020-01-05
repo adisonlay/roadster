@@ -6,7 +6,7 @@
  */
 $(document).ready(init)
 
-/** @constant
+/** @constant state
     @type {string}
     @default
     Holds the start and end destination autocomplete object
@@ -15,15 +15,20 @@ const state = {
   start: null,
   end: null
 };
+let trip;
 
 /** @function init
     @param none
+    Run script for Google Maps API after document load
     Add a click handler to DOM button '#searchBoxGo'
 */
 function init(){
+  let apiScript = $('<script>');
+  apiScript.attr('src', `https://maps.googleapis.com/maps/api/js?key=${KEYS.maps}&libraries=places&callback=autocompleteLoad`);
+  apiScript.attr('async', 'true');
+  $('body').append(apiScript);
   $('#searchBoxGo').on('click', startTrip);
 }
-let trip;
 
 /** @function startTrip
     @param {event} event
@@ -42,9 +47,8 @@ function startTrip(event){
  */
 function initAutocomplete(element){
   let autocomplete = new google.maps.places.Autocomplete(
-   element, {types: ['geocode']}
+    element, {types: ['geocode']}
   );
-
   autocomplete.addListener('place_changed', () => {
     state[$(element).attr('data-location')] = autocomplete.getPlace();
   });

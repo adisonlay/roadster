@@ -65,7 +65,7 @@ class Trip {
       let heading = $('<h1>').text(stopName);
       let ul = $('<ul>');
 
-      if (i !== 0 && !placesArray[i].waypointSelectedPlaces.length) {
+      if ((i !== 0) && (i !== placesArray.length - 1) && (!placesArray[i].waypointSelectedPlaces.length)) {
         ul.append($('<li>').text('No stops selected'));
       } else {
         if (i === 0) {

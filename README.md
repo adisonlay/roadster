@@ -12,7 +12,7 @@ A road trip planning application and hackathon project developed in 48 hours in 
 - DarkSky API
 
 ## Live Demo
-Try the application live at [http://roadster.adisonlay.com/](http://roadster.adisonlay.com/).
+Try the application live at https://roadster.adisonlay.com/.
 
 ## Features
 - Travelers can enter a road trip start location.
